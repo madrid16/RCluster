@@ -15,7 +15,7 @@ import lombok.ToString;
 public class ClusterRequest {
 
     @JsonProperty
-    @ApiModelProperty(value = "LATAM Event Message Payload", required = true)
+    @ApiModelProperty(value = "Cluster Event Message Payload", required = true)
     private String payload;
 
 }
