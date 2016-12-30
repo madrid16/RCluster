@@ -3,6 +3,7 @@ package com.usach.bioinformatica.rest.controller;
 
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import com.usach.bioinformatica.rest.file.MatrixFile;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +31,12 @@ public class ClusterRestController {
             @FormDataParam("aFile") InputStream fileInputString,
             @FormDataParam("aFile") FormDataContentDisposition fileInputDetails) {
 
-        String status = "dasdasdasd";
-        ClusterResponse clusterResponse = new ClusterResponse();
-        clusterResponse.setId(1);
+        MatrixFile uploadFile = new MatrixFile();
+        DistanceMatrixResponse matrixResponse = new DistanceMatrixResponse();
+        String pathFile = uploadFile.saveFile(fileInputDetails, fileInputString);
+        matrixResponse.setGens(uploadFile.responseFile(pathFile));
 
-
-        return Response.status(200).entity(clusterResponse).build();
+        return Response.status(200).entity(matrixResponse).build();
     }
 
     @RequestMapping(value = "matriz", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
