@@ -34,8 +34,8 @@ public class ClusterRestController {
         MatrixFile uploadFile = new MatrixFile();
         DistanceMatrixResponse matrixResponse = new DistanceMatrixResponse();
         String pathFile = uploadFile.saveFile(fileInputDetails, fileInputString);
-        matrixResponse.setGens(uploadFile.responseFile(pathFile));
 
+        matrixResponse.setGens(uploadFile.getColumnName(pathFile));
         return Response.status(200).entity(matrixResponse).build();
     }
 
