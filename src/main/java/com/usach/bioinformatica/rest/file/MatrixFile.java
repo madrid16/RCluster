@@ -31,19 +31,48 @@ public class MatrixFile {
         return fileLocation;
     }
 
-    public List<String> responseFile(String pathFile){
-        List<String> gens = new ArrayList<>();
-        String line = "";
-        try (BufferedReader buffer = new BufferedReader(new FileReader(pathFile))) {
+    public List<String> getColumnName(String pathFile){
+        List<String> column = new ArrayList<>();
+        String line;
+        try{
+            BufferedReader buffer = new BufferedReader(new FileReader(pathFile));
             while ((line = buffer.readLine()) != null) {
                 String[] matrix = line.split(",");
                 if(!matrix[0].isEmpty()){
-                    gens.add(matrix[0]);
+                    column.add(matrix[0]);
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return column;
+    }
+
+    public List<String> getHeaderName(String pathFile){
+        List<String> header = new ArrayList<>();
+        String line;
+        try {
+            BufferedReader buffer = new BufferedReader(new FileReader(pathFile));
+            line = buffer.readLine();
+            String[] matrix = line.split(",");
+            for(String cell : matrix){
+                if(!cell.isEmpty()){
+                    header.add(cell);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return gens;
+        return header;
     }
+
+    public boolean isMatrixExpression(List<String> column, List<String> header){
+        return column != header;
+    }
+
+    public boolean isEuclideanDistance(List<String> column, List<String> header){
+        return column.equals(header);
+    }
+
 }
