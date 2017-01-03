@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.rosuda.REngine.REXP;
+import org.rosuda.REngine.Rserve.RConnection;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -58,6 +60,31 @@ public class MatrixFileTest {
         List<String> columnEuclideanDistance = uploadFile.getColumnName("EuclideanDistance.csv");
         List<String> headerEuclideanDistance = uploadFile.getHeaderName("EuclideanDistance.csv");
         Assert.assertTrue(uploadFile.isEuclideanDistance(columnEuclideanDistance, headerEuclideanDistance));
+    }
+
+    @Test
+    public void R() throws Exception{
+        RConnection re = new RConnection();
+
+        String javaVector = "c(1,2,3,4,5)";
+
+        REXP result;
+
+        result = re.eval("rVector=" + javaVector);
+
+        System.out.println(re.parseAndEval("rVector"));
+
+        String[] output = result.asStrings();
+        System.out.println(Arrays.toString(output));
+        //Calculate MEAN of vector using R syntax.
+        re.eval("meanVal=mean(rVector)");
+
+        //Retrieve MEAN value
+        double mean = re.eval("meanVal").asDouble();
+
+        //Print output values
+        System.out.println("Mean of given vector is=" + mean);
+
     }
 
     private void generateMatrixExpressionCSV() throws IOException {
